@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
-const gravity = 20
-const walkSpeed = 200
+const gravity = 800
+const walkSpeed = 100
 
 #Jump 
 export var fallMultiplier = 2 
@@ -10,6 +10,18 @@ export var jumpVelocity = 400 #Jump height
 
 var velocity = Vector2()
 
+func _process(delta):
+	if velocity.x == 0 && velocity.y == 0:
+		print("Playing")
+		$AnimatedSprite.play("idle")
+	else:
+		print("Stopping")
+		$AnimatedSprite.play("running")
+		
+	if velocity.x <0:
+		$AnimatedSprite.flip_h = true
+	else:
+		$AnimatedSprite.flip_h = false
 
 func _physics_process(delta):
 	velocity.y += delta * gravity
@@ -27,7 +39,6 @@ func _physics_process(delta):
 
 func handleJump():
 	# Jump code from this post -> https://godotengine.org/qa/25897/2d-platformer-how-to-control-jump-height-mario-like-jumps
-	velocity.y += gravity 
 	
 	if velocity.y > 0: 
 	    velocity += Vector2.UP * (-9.81) * (fallMultiplier) 
