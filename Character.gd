@@ -12,10 +12,8 @@ var velocity = Vector2()
 
 func _process(delta):
 	if velocity.x == 0 && velocity.y == 0:
-		print("Playing")
 		$AnimatedSprite.play("idle")
 	else:
-		print("Stopping")
 		$AnimatedSprite.play("running")
 		
 	if velocity.x <0:
