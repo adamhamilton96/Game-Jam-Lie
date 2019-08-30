@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-const gravity = 800
 const walkSpeed = 100
 
 #Jump 
@@ -9,6 +8,7 @@ export var lowJumpMultiplier = 10
 export var jumpVelocity = 400 #Jump height
 
 var velocity = Vector2()
+var gravity = 800
 
 func _process(delta):
 	if velocity.x == 0 && velocity.y == 0:
@@ -28,6 +28,7 @@ func _physics_process(delta):
 		velocity.x = -walkSpeed
 	elif Input.is_action_pressed("ui_right"):
 		velocity.x =  walkSpeed
+		kill()
 	else:
 		velocity.x = 0
 	move_and_slide(velocity, Vector2(0, -1))
@@ -42,10 +43,16 @@ func handleJump():
 	    velocity += Vector2.UP * (-9.81) * (fallMultiplier) 
 	
 	elif velocity.y < 0 && Input.is_action_just_released("ui_up"): 
-	    velocity += Vector2.UP * (-9.81) * (lowJumpMultiplier)
+		velocity += Vector2.UP * (-9.81) * (lowJumpMultiplier)
 	
 	if is_on_floor():
 	    if Input.is_action_just_pressed("ui_up"): 
 	        velocity = Vector2.UP * jumpVelocity
 	
 	velocity = move_and_slide(velocity, Vector2(0,-1))
+	
+func kill():
+	$Particles2D.emitting = true
+	$AnimatedSprite.visible = false
+	gravity = 0
+	velocity.y = 0
