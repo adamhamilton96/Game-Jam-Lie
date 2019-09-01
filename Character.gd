@@ -28,7 +28,7 @@ func _physics_process(delta):
 		velocity.x = -walkSpeed
 	elif Input.is_action_pressed("ui_right"):
 		velocity.x =  walkSpeed
-		kill()
+		#kill()
 	else:
 		velocity.x = 0
 	move_and_slide(velocity, Vector2(0, -1))

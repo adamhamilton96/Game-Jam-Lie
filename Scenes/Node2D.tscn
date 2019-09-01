@@ -1,10 +1,33 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Character.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Saw.gd" type="Script" id=3]
+[ext_resource path="res://Sprites/saw.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/Fire.gd" type="Script" id=5]
+[ext_resource path="res://Sprites/fire.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/fire(1).png" type="Texture" id=7]
+[ext_resource path="res://Sprites/fire(2).png" type="Texture" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 510.346, 31.8221 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 70.1808, 31.0402 )
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 57.3146
+
+[sub_resource type="CapsuleShape2D" id=4]
+height = 20.7366
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
 
 [node name="Node2D" type="Node2D"]
 
@@ -23,3 +46,53 @@ texture = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Character" parent="." instance=ExtResource( 2 )]
+position = Vector2( 99.5012, 328.831 )
+
+[node name="Box1" type="StaticBody2D" parent="."]
+position = Vector2( 586.73, 429.062 )
+
+[node name="BoxSprite1" type="Sprite" parent="Box1"]
+position = Vector2( 1.29234, 3.6478e-005 )
+scale = Vector2( 2.29236, 1 )
+texture = ExtResource( 1 )
+
+[node name="BoxCollision1" type="CollisionShape2D" parent="Box1"]
+shape = SubResource( 2 )
+
+[node name="Box2" type="StaticBody2D" parent="."]
+position = Vector2( 876.217, 425.185 )
+
+[node name="BoxSprite2" type="Sprite" parent="Box2"]
+position = Vector2( 1.29234, 3.6478e-005 )
+scale = Vector2( 2.29236, 1 )
+texture = ExtResource( 1 )
+
+[node name="BoxCollision2" type="CollisionShape2D" parent="Box2"]
+shape = SubResource( 2 )
+
+[node name="Saw" type="Area2D" parent="."]
+position = Vector2( 728.888, 423.893 )
+script = ExtResource( 3 )
+
+[node name="SawSprite" type="Sprite" parent="Saw"]
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Saw"]
+shape = SubResource( 3 )
+
+[node name="Fire" type="Area2D" parent="."]
+position = Vector2( 423.095, 435.001 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fire"]
+position = Vector2( 0, 30 )
+shape = SubResource( 4 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Fire"]
+frames = SubResource( 5 )
+frame = 1
+playing = true
+[connection signal="body_entered" from="Saw" to="Saw" method="_on_Saw_body_entered"]
+[connection signal="body_entered" from="Fire" to="Fire" method="_on_Fire_body_entered"]
